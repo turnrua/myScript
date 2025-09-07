@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Numerics;
 using Newtonsoft.Json;
 using Dalamud.Utility.Numerics;
@@ -48,6 +49,7 @@ public static class EventExtensions
         return ParseHexId(@event["TargetId"], out var id) ? id : 0;
     }
 }
+
 
 
 
