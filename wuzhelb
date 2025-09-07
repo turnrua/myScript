@@ -7,22 +7,21 @@ using KodakkuAssist.Script;
 using KodakkuAssist.Module.GameEvent;
 using KodakkuAssist.Module.Draw;
 
-
 namespace PVP舞者提示
 {
-    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.5", author: "chris")]
+    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.6", author: "chris")]
     public class 舞者提示Class
     {
-    [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:29430"])]
-    public void SlitheringStrike(Event @event, ScriptAccessory accessory)
-       {
-        var dp = accessory.Data.GetDefaultDrawProperties();
-        dp.Name = "舞者LB";
-        dp.Color = accessory.Data.DefaultDangerColor;
-        dp.DestoryAt = 1000;
-        dp.Position = @event.EffectPosition();
-        dp.Scale = new Vector2(15);
-        accessory.Method.SendDraw(0, DrawTypeEnum.Circle, dp);
+        [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:29430"])]
+        public void SlitheringStrike(Event @event, ScriptAccessory accessory)
+        {
+            var dp = accessory.Data.GetDefaultDrawProperties();
+            dp.Name = "舞者LB";
+            dp.Color = accessory.Data.DefaultDangerColor;
+            dp.DestoryAt = 1000;
+            dp.Position = @event.EffectPosition();
+            dp.Scale = new Vector2(15);
+            accessory.Method.SendDraw(0, DrawTypeEnum.Circle, dp);
         }
     }
 
@@ -43,7 +42,10 @@ namespace PVP舞者提示
             dp.Scale = scale;
             return dp;
         }
+    }
+}
 
+// 顶层静态类，放置扩展方法
 public static class EventExtensions
 {
     private static bool ParseHexId(string? idStr, out uint id)
