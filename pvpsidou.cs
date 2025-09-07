@@ -9,7 +9,7 @@ using KodakkuAssist.Module.Draw;
 
 namespace PVP战士死斗提示;
 
-[ScriptType(guid: "5EB4C3B1-7310-4964-B269-6569AE4F43D7", name: "PVP战士死斗提示", territorys: [], version: "0.0.0.5", author: "chris")]
+[ScriptType(guid: "5EB4C3B1-7310-4964-B269-6569AE4F43D7", name: "PVP战士死斗提示", territorys: [], version: "0.0.0.4", author: "chris")]
 public class 战士死斗Class
 {
     [UserSetting("频道")] public string channel { get; set; } = "e";
@@ -20,7 +20,6 @@ public class 战士死斗Class
         if (@event.TargetId() != accessory.Data.Me) return;
 
         accessory.Method.TextInfo("死斗!", 2000);
-		 await Task.Delay(300);
 	accessory.Method.SendChat($"/pvpac  净化");
     }
 }
@@ -49,8 +48,6 @@ public static class EventExtensions
         return ParseHexId(@event["TargetId"], out var id) ? id : 0;
     }
 }
-
-
 
 
 
