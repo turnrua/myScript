@@ -14,10 +14,10 @@ using KodakkuAssist.Module.Draw.Manager;
 
 namespace PVP舞者提示
 {
-    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.2", author: "chris")]
+    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.3", author: "chris")]
     public class 舞者提示Class
     {
-    [ScriptMethod(name: "钢铁", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29081"])]
+    [ScriptMethod(name: "钢铁", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29430"])]
         public void HighestHoly(Event evt, ScriptAccessory sa)
         {
             var dp = sa.FastDp("钢铁", evt.SourceId, 1000, 15);
