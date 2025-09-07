@@ -21,7 +21,7 @@ public class 战士死斗Class
         if (@event.TargetId() != accessory.Data.Me) return;
 
         accessory.Method.TextInfo("死斗!", 2000);
-		 await Task.Delay(300);
+		 await Task.Delay(100);
 	accessory.Method.SendChat($"/pvpac  净化");
     }
 }
@@ -50,6 +50,7 @@ public static class EventExtensions
         return ParseHexId(@event["TargetId"], out var id) ? id : 0;
     }
 }
+
 
 
 
