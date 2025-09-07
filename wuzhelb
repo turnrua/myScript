@@ -7,7 +7,7 @@ using KodakkuAssist.Script;
 using KodakkuAssist.Module.GameEvent;
 using KodakkuAssist.Module.Draw;
 
-namespace PVP舞者提示
+namespace PVP舞者提示.Dawntrail.WorqorLarDor;
 {
     [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.6", author: "chris")]
     public class 舞者提示Class
