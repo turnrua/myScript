@@ -16,7 +16,7 @@ public class 战士死斗Class
     [UserSetting("频道")] public string channel { get; set; } = "e";
     [UserSetting("提示音")] public string se { get; set; } = "<se.1><se.1>";
     [ScriptMethod(name: "战士死斗提示", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29081"])]
-    public void 机工LB(Event @event, ScriptAccessory accessory)
+    public  async void 机工LB(Event @event, ScriptAccessory accessory)
     {
         if (@event.TargetId() != accessory.Data.Me) return;
 
@@ -50,6 +50,7 @@ public static class EventExtensions
         return ParseHexId(@event["TargetId"], out var id) ? id : 0;
     }
 }
+
 
 
 
