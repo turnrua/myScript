@@ -12,12 +12,15 @@ namespace PVP战士死斗提示;
 [ScriptType(guid: "5EB4C3B1-7310-4964-B269-6569AE4F43D7", name: "PVP战士死斗提示", territorys: [], version: "0.0.0.2", author: "chris")]
 public class 机工LBClass
 {
+    [UserSetting("频道")] public string channel { get; set; } = "e";
+    [UserSetting("提示音")] public string se { get; set; } = "<se.1><se.1>";
     [ScriptMethod(name: "战士死斗提示", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29081"])]
     public void 机工LB(Event @event, ScriptAccessory accessory)
     {
         if (@event.TargetId() != accessory.Data.Me) return;
 
         accessory.Method.TextInfo("死斗!", 2000);
+	accessory.Method.SendChat($"/e 战士死斗");
     }
 }
 
