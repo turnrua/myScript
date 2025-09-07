@@ -1,0 +1,66 @@
+using System;
+using System.Linq;
+using System.Numerics;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Dalamud.Utility.Numerics;
+using Newtonsoft.Json;
+using KodakkuAssist.Data;
+using KodakkuAssist.Script;
+using KodakkuAssist.Module.GameEvent;
+using KodakkuAssist.Module.Draw;
+using KodakkuAssist.Module.Draw.Manager;
+
+namespace PVP舞者提示;
+
+[ScriptType(guid: "5EB4C3B1-7310-4964-B269-6569AE4F43D7", name: "PVP舞者提示", territorys: [], version: "0.0.0.1", author: "chris")]
+public class 舞者提示Class
+ [ScriptMethod(name: "钢铁", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:29430"])]
+    public void HighestHoly(Event evt, ScriptAccessory sa)
+    {
+        var dp = sa.FastDp("钢铁", evt.SourceId, 1000, 15);
+        dp.Color = dp.Color.WithW(0.5f);
+        sa.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
+        dp.ScaleMode = ScaleMode.ByTime;
+        dp.Color = dp.Color.WithW(3);
+        sa.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
+    }
+
+
+public static class ScriptAccessoryExtensions
+{
+    public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, ulong owner, uint duration, float radius, bool safe = false)
+    {
+        return FastDp(sa, name, owner, duration, new Vector2(radius), safe);
+    }
+
+    public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, ulong owner, uint duration, Vector2 scale, bool safe = false)
+    {
+        var dp = sa.Data.GetDefaultDrawProperties();
+        dp.Name = name;
+        dp.Color = safe ? sa.Data.DefaultSafeColor : sa.Data.DefaultDangerColor;
+        dp.Owner = owner;
+        dp.DestoryAt = duration;
+        dp.Scale = scale;
+        return dp;
+    }
+
+    public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, Vector3 pos, uint duration, float radius, bool safe = false)
+    {
+        return FastDp(sa, name, pos, duration, new Vector2(radius), safe);
+    }
+
+    public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, Vector3 pos, uint duration, Vector2 scale, bool safe = false)
+    {
+        var dp = sa.Data.GetDefaultDrawProperties();
+        dp.Name = name;
+        dp.Color = safe ? sa.Data.DefaultSafeColor : sa.Data.DefaultDangerColor;
+        dp.Position = pos;
+        dp.DestoryAt = duration;
+        dp.Scale = scale;
+        return dp;
+    }
+}
+
+
