@@ -23,6 +23,7 @@ namespace PVP舞者提示;
             dp.Position = @event.EffectPosition();
             dp.Scale = new Vector2(15);
             accessory.Method.SendDraw(0, DrawTypeEnum.Circle, dp);
+            accessory.Method.SendChat($"/e  舞者LB");
         }
     }
 
