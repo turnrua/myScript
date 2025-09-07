@@ -10,9 +10,10 @@
     {
         "Name": "PVP战士死斗提示",
         "Guid": "5EB4C3B1-7310-4964-B269-6569AE4F43D7",
-        "Version": "0.0.0.2",
+        "Version": "0.0.0.3",
         "Author": "chris",
         "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/pvpsidou.cs",
         "UpdateInfo": "1"
     }
 ]
+
