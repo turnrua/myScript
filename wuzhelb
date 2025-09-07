@@ -10,7 +10,7 @@ using KodakkuAssist.Module.Draw;
 
 namespace PVP舞者提示
 {
-    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.4", author: "chris")]
+    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.5", author: "chris")]
     public class 舞者提示Class
     {
     [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:29430"])]
