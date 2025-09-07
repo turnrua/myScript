@@ -9,7 +9,7 @@ using KodakkuAssist.Module.Draw;
 
 namespace PVP舞者提示.Dawntrail.WorqorLarDor;
 {
-    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.6", author: "chris")]
+    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.7", author: "chris")]
     public class 舞者提示Class
     {
         [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:29430"])]
@@ -25,67 +25,47 @@ namespace PVP舞者提示.Dawntrail.WorqorLarDor;
         }
     }
 
-    public static class ScriptAccessoryExtensions
+    public static class EventExtensions
     {
-        public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, ulong owner, uint duration, float radius, bool safe = false)
+        private static bool ParseHexId(string? idStr, out uint id)
         {
-            return FastDp(sa, name, owner, duration, new Vector2(radius), safe);
+            id = 0;
+            if (string.IsNullOrEmpty(idStr)) return false;
+            try
+            {
+                var idStr2 = idStr.Replace("0x", "");
+                id = uint.Parse(idStr2, System.Globalization.NumberStyles.HexNumber);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, ulong owner, uint duration, Vector2 scale, bool safe = false)
+        public static uint Id(this Event @event)
         {
-            var dp = sa.Data.GetDefaultDrawProperties();
-            dp.Name = name;
-            dp.Color = safe ? sa.Data.DefaultSafeColor : sa.Data.DefaultDangerColor;
-            dp.Owner = owner;
-            dp.DestoryAt = duration;
-            dp.Scale = scale;
-            return dp;
+            return JsonConvert.DeserializeObject<uint>(@event["Id"]);
         }
-    }
-}
 
-// 顶层静态类，放置扩展方法
-public static class EventExtensions
-{
-    private static bool ParseHexId(string? idStr, out uint id)
-    {
-        id = 0;
-        if (string.IsNullOrEmpty(idStr)) return false;
-        try
+        public static uint ActionId(this Event @event)
         {
-            var idStr2 = idStr.Replace("0x", "");
-            id = uint.Parse(idStr2, System.Globalization.NumberStyles.HexNumber);
-            return true;
+            return JsonConvert.DeserializeObject<uint>(@event["ActionId"]);
         }
-        catch (Exception)
+
+        public static uint SourceId(this Event @event)
         {
-            return false;
+            return ParseHexId(@event["SourceId"], out var id) ? id : 0;
         }
-    }
 
-    public static uint Id(this Event @event)
-    {
-        return JsonConvert.DeserializeObject<uint>(@event["Id"]);
-    }
+        public static uint TargetId(this Event @event)
+        {
+            return ParseHexId(@event["TargetId"], out var id) ? id : 0;
+        }
 
-    public static uint ActionId(this Event @event)
-    {
-        return JsonConvert.DeserializeObject<uint>(@event["ActionId"]);
-    }
-
-    public static uint SourceId(this Event @event)
-    {
-        return ParseHexId(@event["SourceId"], out var id) ? id : 0;
-    }
-
-    public static uint TargetId(this Event @event)
-    {
-        return ParseHexId(@event["TargetId"], out var id) ? id : 0;
-    }
-
-    public static Vector3 EffectPosition(this Event @event)
-    {
-        return JsonConvert.DeserializeObject<Vector3>(@event["EffectPosition"]);
+        public static Vector3 EffectPosition(this Event @event)
+        {
+            return JsonConvert.DeserializeObject<Vector3>(@event["EffectPosition"]);
+        }
     }
 }
