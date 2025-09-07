@@ -18,12 +18,13 @@
         {
         "Name": "PVP舞者提示",
         "Guid": "70D33E2C-8080-4055-ACC3-29C91CF673A0",
-        "Version": "0.0.0.2",
+        "Version": "0.0.0.3",
         "Author": "chris",
         "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/wuzhelb",
         "UpdateInfo": "1"
     }
 ]
+
 
 
 
