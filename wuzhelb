@@ -15,7 +15,7 @@ namespace PVP舞者提示;
     {
         [UserSetting("频道")] public string channel { get; set; } = "e";
         [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29432"])]
-        public void SlitheringStrike(Event @event, ScriptAccessory accessory)
+        public void 舞者LB(Event @event, ScriptAccessory accessory)
         {
             var dp = accessory.Data.GetDefaultDrawProperties();
             dp.Name = "舞者LB";
