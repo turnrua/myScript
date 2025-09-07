@@ -1,31 +1,28 @@
 using System;
 using System.Linq;
 using System.Numerics;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
-using Dalamud.Utility.Numerics;
 using Newtonsoft.Json;
-using KodakkuAssist.Data;
 using KodakkuAssist.Script;
 using KodakkuAssist.Module.GameEvent;
 using KodakkuAssist.Module.Draw;
-using KodakkuAssist.Module.Draw.Manager;
+
 
 namespace PVP舞者提示
 {
-    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.3", author: "chris")]
+    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.0.4", author: "chris")]
     public class 舞者提示Class
     {
-    [ScriptMethod(name: "钢铁", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29430"])]
-        public void HighestHoly(Event evt, ScriptAccessory sa)
-        {
-            var dp = sa.FastDp("钢铁", evt.SourceId, 1000, 15);
-            dp.Color = dp.Color.WithW(0.5f);
-            sa.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
-            dp.ScaleMode = ScaleMode.ByTime;
-            dp.Color = dp.Color.WithW(3);
-            sa.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
+    [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.StartCasting, eventCondition: ["ActionId:29430"])]
+    public void SlitheringStrike(Event @event, ScriptAccessory accessory)
+       {
+        var dp = accessory.Data.GetDefaultDrawProperties();
+        dp.Name = "舞者LB";
+        dp.Color = accessory.Data.DefaultDangerColor;
+        dp.DestoryAt = 1000;
+        dp.Position = @event.EffectPosition();
+        dp.Scale = new Vector2(15);
+        accessory.Method.SendDraw(0, DrawTypeEnum.Circle, dp);
         }
     }
 
@@ -47,20 +44,46 @@ namespace PVP舞者提示
             return dp;
         }
 
-        public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, Vector3 pos, uint duration, float radius, bool safe = false)
+public static class EventExtensions
+{
+    private static bool ParseHexId(string? idStr, out uint id)
+    {
+        id = 0;
+        if (string.IsNullOrEmpty(idStr)) return false;
+        try
         {
-            return FastDp(sa, name, pos, duration, new Vector2(radius), safe);
+            var idStr2 = idStr.Replace("0x", "");
+            id = uint.Parse(idStr2, System.Globalization.NumberStyles.HexNumber);
+            return true;
         }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 
-        public static DrawPropertiesEdit FastDp(this ScriptAccessory sa, string name, Vector3 pos, uint duration, Vector2 scale, bool safe = false)
-        {
-            var dp = sa.Data.GetDefaultDrawProperties();
-            dp.Name = name;
-            dp.Color = safe ? sa.Data.DefaultSafeColor : sa.Data.DefaultDangerColor;
-            dp.Position = pos;
-            dp.DestoryAt = duration;
-            dp.Scale = scale;
-            return dp;
-        }
+    public static uint Id(this Event @event)
+    {
+        return JsonConvert.DeserializeObject<uint>(@event["Id"]);
+    }
+
+    public static uint ActionId(this Event @event)
+    {
+        return JsonConvert.DeserializeObject<uint>(@event["ActionId"]);
+    }
+
+    public static uint SourceId(this Event @event)
+    {
+        return ParseHexId(@event["SourceId"], out var id) ? id : 0;
+    }
+
+    public static uint TargetId(this Event @event)
+    {
+        return ParseHexId(@event["TargetId"], out var id) ? id : 0;
+    }
+
+    public static Vector3 EffectPosition(this Event @event)
+    {
+        return JsonConvert.DeserializeObject<Vector3>(@event["EffectPosition"]);
     }
 }
