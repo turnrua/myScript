@@ -16,14 +16,23 @@
         "UpdateInfo": "1"
     },
         {
-        "Name": "PVP舞者提示",
+        "Name": "PVP不被dk吸",
         "Guid": "70D33E2C-8080-4055-ACC3-29C91CF673A0",
         "Version": "0.0.1.3",
         "Author": "chris",
         "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/wuzhelb",
         "UpdateInfo": "1"
+    },
+    {
+        "Name": "PVP战士死斗提示",
+        "Guid": "0B41F8C2-A097-50CB-5D1A-86031E179221",
+        "Version": "0.0.0.2",
+        "Author": "chris",
+        "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/dkxi",
+        "UpdateInfo": "1"
     }
 ]
+
 
 
 
