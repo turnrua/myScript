@@ -19,7 +19,6 @@ public class 机工LBClass
   public  async void 不被dk吸(Event @event, ScriptAccessory accessory)
     {
         if (@event.TargetId() != accessory.Data.Me) return;
-		    await Task.Delay(50);
 	      accessory.Method.SendChat($"/pvpac  净化");
     }
 }
