@@ -10,13 +10,13 @@ using KodakkuAssist.Module.Draw;
 
 namespace PVP不被dk吸;
 
-[ScriptType(guid: "0B41F8C2-A097-50CB-5D1A-86031E179221", name: "PVP不被dk吸", territorys: [], version: "0.0.0.2", author: "chris")]
+[ScriptType(guid: "0B41F8C2-A097-50CB-5D1A-86031E179221", name: "PVP不被dk吸", territorys: [], version: "0.0.0.3", author: "chris")]
 public class 机工LBClass
 {
     [UserSetting("频道")] public string channel { get; set; } = "e";
     [UserSetting("提示音")] public string se { get; set; } = "<se.1><se.1>";
     [ScriptMethod(name: "不被dk吸", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29094"])]
-  public  async void 不被dk吸(Event @event, ScriptAccessory accessory)
+  public   void 不被dk吸(Event @event, ScriptAccessory accessory)
     {
         if (@event.TargetId() != accessory.Data.Me) return;
 	      accessory.Method.SendChat($"/pvpac  净化");
