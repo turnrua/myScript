@@ -14,7 +14,7 @@ namespace PVP舞者提示;
     public class 舞者提示Class
     {
         [UserSetting("频道")] public string channel { get; set; } = "e";
-        [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29430"])]
+        [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29432"])]
         public void 舞者LB(Event @event, ScriptAccessory accessory)
         {
             var dp = accessory.Data.GetDefaultDrawProperties();
@@ -24,7 +24,7 @@ namespace PVP舞者提示;
        	    dp.DestoryAt = 4000;
             dp.Scale = new Vector2(15f);
             accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
-			accessory.Method.TextInfo("前冲步!", 500);
+			accessory.Method.TextInfo("魅惑!", 500);
             accessory.Method.SendChat($"/e  前冲步");
         }
     }
