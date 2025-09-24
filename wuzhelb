@@ -25,7 +25,7 @@ namespace PVP舞者提示;
             dp.Scale = new Vector2(15f);
             accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
 			accessory.Method.TextInfo("魅惑!", 500);
-            accessory.Method.SendChat($"/e  前冲步");
+            accessory.Method.SendChat($"/e  魅惑");
         }
     }
 
