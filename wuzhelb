@@ -20,12 +20,13 @@ namespace PVP舞者提示;
             var dp = accessory.Data.GetDefaultDrawProperties();
             dp.Name = "舞者LB";
             dp.Color = accessory.Data.DefaultDangerColor;
-	        dp.Owner = @event.SourceId();            
+	        dp.Owner = @event.SourceId();
+			name=@event.SourceName();
        	    dp.DestoryAt = 4000;
             dp.Scale = new Vector2(15f);
             accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
 			accessory.Method.TextInfo("魅惑!", 500);
-            accessory.Method.SendChat($"/e  魅惑");
+            accessory.Method.SendChat($"/e  {name}魅惑");
         }
     }
 
