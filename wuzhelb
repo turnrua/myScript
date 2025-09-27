@@ -10,23 +10,26 @@ using Dalamud.Utility.Numerics;
 
 namespace PVP舞者提示;
 
-    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.1.8", author: "chris")]
+
+
+    [ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A0", name: "PVP舞者提示", territorys: [], version: "0.0.1.9", author: "chris")]
     public class 舞者提示Class
     {
         [UserSetting("频道")] public string channel { get; set; } = "e";
+	private string? username; 
         [ScriptMethod(name: "舞者LB", eventType: EventTypeEnum.ActionEffect, eventCondition: ["ActionId:29432"])]
-		 string? username;
+		
         public void 舞者LB(Event @event, ScriptAccessory accessory)
         {
             var dp = accessory.Data.GetDefaultDrawProperties();
             dp.Name = "舞者LB";
             dp.Color = accessory.Data.DefaultDangerColor;
-	        dp.Owner = @event.SourceId();
-			username="@event.SourceName()";
+	     dp.Owner = @event.SourceId();
+	    username=@event.SourceName();
        	    dp.DestoryAt = 4000;
             dp.Scale = new Vector2(15f);
             accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
-			accessory.Method.TextInfo("魅惑!", 500);
+	   accessory.Method.TextInfo("魅惑!", 500);
             accessory.Method.SendChat($"/e  {username}魅惑");
         }
     }
@@ -69,6 +72,10 @@ namespace PVP舞者提示;
         {
             return ParseHexId(@event["TargetId"], out var id) ? id : 0;
         }
+     	public static string SourceName(this Event @event)
+    	{
+       	   return @event["SourceName"];
+    	}
 
         public static Vector3 EffectPosition(this Event @event)
         {
