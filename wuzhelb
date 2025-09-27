@@ -22,7 +22,7 @@ namespace PVP舞者提示;
             dp.Name = "舞者LB";
             dp.Color = accessory.Data.DefaultDangerColor;
 	        dp.Owner = @event.SourceId();
-			username=@event.SourceName();
+			username="@event.SourceName()";
        	    dp.DestoryAt = 4000;
             dp.Scale = new Vector2(15f);
             accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Circle, dp);
