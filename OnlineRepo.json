@@ -30,8 +30,17 @@
         "Author": "chris",
         "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/dkxi",
         "UpdateInfo": "1"
+    },
+        {
+        "Name": "PVPdk吸防御",
+        "Guid": "FEEE5335-2354-671D-80CC-C911CD5C55DC",
+        "Version": "0.0.0.1",
+        "Author": "chris",
+        "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/dkfangyu.cs",
+        "UpdateInfo": "1"
     }
 ]
+
 
 
 
