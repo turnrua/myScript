@@ -20,7 +20,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace PVP机工LB提示;
 
-[ScriptType(guid: "C0C67BDA-B6B3-411D-8C7F-C3161335BEB3", name: "PVP机工LB提示", territorys: [250, 431, 554, 888, 1273], version: "0.0.0.2", author: "chris")]
+[ScriptType(guid: "C64FA0B3-719A-2D37-ED82-962DC02ADA51", name: "PVP机工LB提示", territorys: [250, 431, 554, 888, 1273], version: "0.0.0.2", author: "chris")]
 public class 机工LBClass
 {
     [UserSetting("TTS开关")]
