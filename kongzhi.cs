@@ -37,7 +37,7 @@ public class 机工LBClass
         if (isEdgeTTS) accessory.Method.EdgeTTS("净化净化");
     }
     [ScriptMethod(name: "战场沉默", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:1060"])]
-    public void 战场沉默(Event @event, ScriptAccessory accessory)
+    public async void 战场沉默(Event @event, ScriptAccessory accessory)
     {
         if (@event.SourceId() != accessory.Data.Me) return;
         await Task.Delay(100);
