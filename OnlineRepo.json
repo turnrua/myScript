@@ -38,8 +38,17 @@
         "Author": "chris",
         "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/dkfangyu.cs",
         "UpdateInfo": "1"
+    },
+        {
+        "Name": "PVP控制",
+        "Guid": "C64FA0B3-719A-2D37-ED82-962DC02ADA51",
+        "Version": "0.0.0.1",
+        "Author": "chris",
+        "DownloadUrl": "https://raw.githubusercontent.com/turnrua/myScript/refs/heads/main/kongzhi.cs",
+        "UpdateInfo": "1"
     }
 ]
+
 
 
 
