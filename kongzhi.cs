@@ -31,15 +31,15 @@ public class 机工LBClass
     [ScriptMethod(name: "战场眩晕", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:1343"])]
     public void 战场眩晕(Event @event, ScriptAccessory accessory)
     {
-        if (@event.SourceId() != accessory.Data.Me) return;
+        if (@event.TargetId() != accessory.Data.Me) return;
 
         if (isTTS) accessory.Method.TTS("净化净化");
         if (isEdgeTTS) accessory.Method.EdgeTTS("净化净化");
     }
-    [ScriptMethod(name: "战场沉默", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:1060"])]
+    [ScriptMethod(name: "战场沉默", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:1347"])]
     public async void 战场沉默(Event @event, ScriptAccessory accessory)
     {
-        if (@event.SourceId() != accessory.Data.Me) return;
+        if (@event.TargetId() != accessory.Data.Me) return;
         await Task.Delay(100);
         accessory.Method.SendChat($"/pvpac  净化");
         if (isTTS) accessory.Method.TTS("已净化");
@@ -48,7 +48,7 @@ public class 机工LBClass
     [ScriptMethod(name: "战场止步", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:1345"])]
     public void 战场止步(Event @event, ScriptAccessory accessory)
     {
-        if (@event.SourceId() != accessory.Data.Me) return;
+        if (@event.TargetId() != accessory.Data.Me) return;
 
         if (isTTS) accessory.Method.TTS("净化净化");
         if (isEdgeTTS) accessory.Method.EdgeTTS("净化净化");
@@ -56,7 +56,7 @@ public class 机工LBClass
     [ScriptMethod(name: "战场冻结", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:xxxx"])]
     public void 战场冻结(Event @event, ScriptAccessory accessory)
     {
-        if (@event.SourceId() != accessory.Data.Me) return;
+        if (@event.TargetId() != accessory.Data.Me) return;
 
         if (isTTS) accessory.Method.TTS("净化净化");
         if (isEdgeTTS) accessory.Method.EdgeTTS("净化净化");
@@ -64,7 +64,7 @@ public class 机工LBClass
      [ScriptMethod(name: "战场变猪", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:3085"])]
     public async void 战场变猪(Event @event, ScriptAccessory accessory)
     {
-        if (@event.SourceId() != accessory.Data.Me) return;
+        if (@event.TargetId() != accessory.Data.Me) return;
         await Task.Delay(100);
         accessory.Method.SendChat($"/pvpac  净化");
         if (isTTS) accessory.Method.TTS("已净化");
