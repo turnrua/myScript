@@ -8,7 +8,7 @@ using KodakkuAssist.Script;
 using KodakkuAssist.Module.GameEvent;
 using KodakkuAssist.Module.Draw;
 
-namespace PVP不被dk吸;
+namespace PVP不被dk吸2;
 
 [ScriptType(guid: "FEEE5335-2354-671D-80CC-C911CD5C55DC", name: "PVPdk吸防御", territorys: [], version: "0.0.0.1", author: "chris")]
 public class dk吸防御Class
