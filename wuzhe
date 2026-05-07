@@ -10,7 +10,7 @@ using Dalamud.Utility.Numerics;
 
 namespace PVP舞者位置;
 
-[ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A3", name: "PVP舞者提示-位置版", territorys: [], version: "0.0.1.10", author: "chris")]
+[ScriptType(guid: "7F6A971F-B0FC-8E79-7E6B-20D2681A4C8E", name: "PVP舞者提示-位置版", territorys: [], version: "0.0.0.2", author: "chris")]
 public class 舞者位置Class
 {
     [UserSetting("频道")] public string channel { get; set; } = "e";
