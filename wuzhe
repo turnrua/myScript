@@ -8,41 +8,42 @@ using KodakkuAssist.Module.GameEvent;
 using KodakkuAssist.Module.Draw;
 using Dalamud.Utility.Numerics;
 
-namespace PVP舞者提示;
+namespace PVP舞者位置;
 
-
-
-[ScriptMethod(name: "闭式舞姿脚下文字", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:2026"])]
-public void ClosedPositionText(Event @event, ScriptAccessory accessory)
+[ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A3", name: "PVP舞者提示-位置版", territorys: [], version: "0.0.1.10", author: "chris")]
+public class 舞者位置Class
 {
-    // 获取目标对象（被贴舞姿的人）
-    var obj = IbcHelper.GetById(accessory, @event.TargetId);
-    if (obj == null || !obj.IsValid()) return;
+    [UserSetting("频道")] public string channel { get; set; } = "e";
 
-    var dp = accessory.Data.GetDefaultDrawProperties();
-    dp.Name = $"舞姿标记-{@event.TargetId()}";
+    [ScriptMethod(name: "闭式舞姿脚下文字", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:2026"])]
+    public void ClosedPositionText(Event @event, ScriptAccessory accessory)
+    {
+        // 设置颜色：亮粉色，更醒目
+        var dp = accessory.Data.GetDefaultDrawProperties();
+        dp.Name = $"舞姿标记-{@event.TargetId()}";
+        dp.Color = new Vector4(1.0f, 0.4f, 0.8f, 1.0f);
 
-    // 设置颜色：亮粉色 (R:1, G:0.4, B:0.8) 比较符合舞者氛围
-    dp.Color = new Vector4(1.0f, 0.4f, 0.8f, 1.0f);
+        // 绑定在获得buff的人脚下
+        dp.Owner = @event.TargetId();
+        
+        // 绘制类型设为文字
+        dp.Text = "舞";
+        dp.Scale = new Vector2(2.0f);
+        
+        // 设置一个较长的持续时间，直到手动移除或超时
+        dp.DestoryAt = 1000000; 
 
-    // 绑定在获得buff的人脚下
-    dp.Owner = @event.TargetId();
+        // 发送绘制
+        accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Text, dp);
+    }
 
-    // 绘制类型设为文本
-    dp.Text = "舞";
-
-    // 缩放控制字体大小
-    dp.Scale = new Vector2(2.0f);
-
-    // 设置持续时间。由于舞姿是永久buff，这里可以设置长一点，或者不设置让它随buff消失逻辑（具体看框架实现）
-    // 如果想让它一直存在，通常根据框架逻辑，StatusAdd触发的绘制建议给一个较长的销毁时间
-    // 或者配合 StatusRemove 事件来销毁。这里先给一个长效显示。
-    dp.DestoryAt = 1000000; // 10分钟，通常换职业或死亡会自动清理
-
-    // 发送绘制：使用 Text 类型
-    accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Text, dp);
+    [ScriptMethod(name: "闭式舞姿移除", eventType: EventTypeEnum.StatusRemove, eventCondition: ["StatusID:2026"])]
+    public void ClosedPositionRemove(Event @event, ScriptAccessory accessory)
+    {
+        // 当buff消失时清理掉文字，防止残留
+        accessory.Method.RemoveDraw($"舞姿标记-{@event.TargetId()}");
+    }
 }
-
 
 public static class EventExtensions
 {
@@ -81,9 +82,10 @@ public static class EventExtensions
     {
         return ParseHexId(@event["TargetId"], out var id) ? id : 0;
     }
+
     public static string SourceName(this Event @event)
     {
-        return @event["SourceName"];
+        return @event["SourceName"] ?? "Unknown";
     }
 
     public static Vector3 EffectPosition(this Event @event)
