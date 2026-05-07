@@ -1,50 +1,51 @@
 using System;
 using System.Linq;
 using System.Numerics;
-using System.Threading;
 using Newtonsoft.Json;
 using KodakkuAssist.Script;
 using KodakkuAssist.Module.GameEvent;
 using KodakkuAssist.Module.Draw;
-using Dalamud.Utility.Numerics;
 
-namespace PVP舞者位置;
+namespace DancerHelper;
 
-[ScriptType(guid: "7F6A971F-B0FC-8E79-7E6B-20D2681A4C8E", name: "PVP舞者提示-位置版", territorys: [], version: "0.0.0.2", author: "chris")]
-public class 舞者位置Class
+[ScriptType(guid: "70D33E2C-8080-4055-ACC3-29C91CF673A6", name: "PVP舞者提示-位置标记版", territorys: [], version: "0.0.1.18", author: "chris")]
+public class DancerLinkClass
 {
-    [UserSetting("频道")] public string channel { get; set; } = "e";
-
-    [ScriptMethod(name: "闭式舞姿脚下文字", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:2026"])]
+    [ScriptMethod(name: "闭式舞姿脚下文字", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:2048"])]
     public void ClosedPositionText(Event @event, ScriptAccessory accessory)
     {
-        // 设置颜色：亮粉色，更醒目
+        // 逻辑：如果是别人获得了舞姿（TargetId），就在他脚下画个圈或写字
+        // 如果想让自己身上也显示，就把下面这行注释掉
+        // if (@event.TargetId() == accessory.Data.Me) return; 
+
         var dp = accessory.Data.GetDefaultDrawProperties();
         dp.Name = $"舞姿标记-{@event.TargetId()}";
+
+        // 绑定到获得Buff的人身上
+        dp.Owner = @event.TargetId();
+
+        // 颜色参考：亮粉色
         dp.Color = new Vector4(1.0f, 0.4f, 0.8f, 1.0f);
 
-        // 绑定在获得buff的人脚下
-        dp.Owner = @event.TargetId();
-        
-        // 绘制类型设为文字
-        dp.Text = "舞";
-        dp.Scale = new Vector2(2.0f);
-        
-        // 设置一个较长的持续时间，直到手动移除或超时
-        dp.DestoryAt = 1000000; 
+        // 尝试使用 Circle（如果不支持Text），并使用 Imgui 模式增加成功率
+        dp.Scale = new Vector2(0.3f);
+        dp.DestoryAt = 1000000; // 长期持有
 
-        // 发送绘制
-        accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Text, dp);
+        // 发送绘制：采用你示例中的 Imgui 模式
+        accessory.Method.SendDraw(DrawModeEnum.Imgui, DrawTypeEnum.Circle, dp);
+
+
     }
 
     [ScriptMethod(name: "闭式舞姿移除", eventType: EventTypeEnum.StatusRemove, eventCondition: ["StatusID:2026"])]
     public void ClosedPositionRemove(Event @event, ScriptAccessory accessory)
     {
-        // 当buff消失时清理掉文字，防止残留
+        // 移除标记
         accessory.Method.RemoveDraw($"舞姿标记-{@event.TargetId()}");
     }
 }
 
+// 必须保留你示例中依赖的扩展方法，确保 TargetId() 等能正常解析
 public static class EventExtensions
 {
     private static bool ParseHexId(string? idStr, out uint id)
@@ -57,25 +58,7 @@ public static class EventExtensions
             id = uint.Parse(idStr2, System.Globalization.NumberStyles.HexNumber);
             return true;
         }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
-
-    public static uint Id(this Event @event)
-    {
-        return JsonConvert.DeserializeObject<uint>(@event["Id"]);
-    }
-
-    public static uint ActionId(this Event @event)
-    {
-        return JsonConvert.DeserializeObject<uint>(@event["ActionId"]);
-    }
-
-    public static uint SourceId(this Event @event)
-    {
-        return ParseHexId(@event["SourceId"], out var id) ? id : 0;
+        catch (Exception) { return false; }
     }
 
     public static uint TargetId(this Event @event)
@@ -83,13 +66,8 @@ public static class EventExtensions
         return ParseHexId(@event["TargetId"], out var id) ? id : 0;
     }
 
-    public static string SourceName(this Event @event)
+    public static string TargetName(this Event @event)
     {
-        return @event["SourceName"] ?? "Unknown";
-    }
-
-    public static Vector3 EffectPosition(this Event @event)
-    {
-        return JsonConvert.DeserializeObject<Vector3>(@event["EffectPosition"]);
+        return @event["TargetName"] ?? "未知";
     }
 }
