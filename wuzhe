@@ -1,0 +1,93 @@
+using System;
+using System.Linq;
+using System.Numerics;
+using System.Threading;
+using Newtonsoft.Json;
+using KodakkuAssist.Script;
+using KodakkuAssist.Module.GameEvent;
+using KodakkuAssist.Module.Draw;
+using Dalamud.Utility.Numerics;
+
+namespace PVP舞者提示;
+
+
+
+[ScriptMethod(name: "闭式舞姿脚下文字", eventType: EventTypeEnum.StatusAdd, eventCondition: ["StatusID:2026"])]
+public void ClosedPositionText(Event @event, ScriptAccessory accessory)
+{
+    // 获取目标对象（被贴舞姿的人）
+    var obj = IbcHelper.GetById(accessory, @event.TargetId);
+    if (obj == null || !obj.IsValid()) return;
+
+    var dp = accessory.Data.GetDefaultDrawProperties();
+    dp.Name = $"舞姿标记-{@event.TargetId()}";
+
+    // 设置颜色：亮粉色 (R:1, G:0.4, B:0.8) 比较符合舞者氛围
+    dp.Color = new Vector4(1.0f, 0.4f, 0.8f, 1.0f);
+
+    // 绑定在获得buff的人脚下
+    dp.Owner = @event.TargetId();
+
+    // 绘制类型设为文本
+    dp.Text = "舞";
+
+    // 缩放控制字体大小
+    dp.Scale = new Vector2(2.0f);
+
+    // 设置持续时间。由于舞姿是永久buff，这里可以设置长一点，或者不设置让它随buff消失逻辑（具体看框架实现）
+    // 如果想让它一直存在，通常根据框架逻辑，StatusAdd触发的绘制建议给一个较长的销毁时间
+    // 或者配合 StatusRemove 事件来销毁。这里先给一个长效显示。
+    dp.DestoryAt = 1000000; // 10分钟，通常换职业或死亡会自动清理
+
+    // 发送绘制：使用 Text 类型
+    accessory.Method.SendDraw(DrawModeEnum.Default, DrawTypeEnum.Text, dp);
+}
+
+
+public static class EventExtensions
+{
+    private static bool ParseHexId(string? idStr, out uint id)
+    {
+        id = 0;
+        if (string.IsNullOrEmpty(idStr)) return false;
+        try
+        {
+            var idStr2 = idStr.Replace("0x", "");
+            id = uint.Parse(idStr2, System.Globalization.NumberStyles.HexNumber);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public static uint Id(this Event @event)
+    {
+        return JsonConvert.DeserializeObject<uint>(@event["Id"]);
+    }
+
+    public static uint ActionId(this Event @event)
+    {
+        return JsonConvert.DeserializeObject<uint>(@event["ActionId"]);
+    }
+
+    public static uint SourceId(this Event @event)
+    {
+        return ParseHexId(@event["SourceId"], out var id) ? id : 0;
+    }
+
+    public static uint TargetId(this Event @event)
+    {
+        return ParseHexId(@event["TargetId"], out var id) ? id : 0;
+    }
+    public static string SourceName(this Event @event)
+    {
+        return @event["SourceName"];
+    }
+
+    public static Vector3 EffectPosition(this Event @event)
+    {
+        return JsonConvert.DeserializeObject<Vector3>(@event["EffectPosition"]);
+    }
+}
